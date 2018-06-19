@@ -1,6 +1,6 @@
 {
   "name": "aran-lite",
-  "description": "Simpler API for Aran and Otiluke",
+  "description": "Aran and Otiluke, integrated.",
   "version": "0.0.0",
   "author": {
     "name": "Laurent Christophe",
@@ -10,13 +10,15 @@
   "homepage": "http://github.com/lachrist/aran-lite",
   "license": "MIT",
   "bin": {
-    "aran-lite-browser-reset": "./browser/reset/bin.js",
     "aran-lite-node": "./node/bin.js"
+  },
+  "devDependencies": {
+    "acorn": "5.7.1"
   },
   "dependencies": {
     "aran": "2.3.0",
     "astring": "1.3.0",
-    "otiluke": "4.2.3"
+    "otiluke": "4.3.1"
   },
   "keywords": [
     "Aran",

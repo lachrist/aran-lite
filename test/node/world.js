@@ -1,0 +1,1 @@
+module.exports = "W"+"o"+"r"+"l"+"d";
