@@ -1,12 +1,12 @@
 const Astring = require("astring");
 const Aran = require("aran");
 const islower = (string) => string.toLowerCase() === string;
-module.exports = (analysis, platform) => (antena, options, callback) => {
+module.exports = (analysis) => (antena, options, callback) => {
   const aran = Aran();
-  analysis(aran, antena, options, (error, {parse, advice}) => {
+  analysis(aran, antena, options, (error, {parse, advice, pointcut}) => {
     if (error)
       return callback(error);
-    const pointcut = Object.keys(advice).filter(islower);
+    pointcut = pointcut || Object.keys(advice).filter(islower);
     global[aran.namespace] = advice;
     global.eval(Astring.generate(aran.setup()));
     callback(null, (script, source) => {
@@ -17,7 +17,7 @@ module.exports = (analysis, platform) => (antena, options, callback) => {
             estree,
             pointcut,
             {
-              scope: platform === "node" ? "node" : "global",
+              scope: antena.platform === "node" ? "node" : "global",
               sandbox: "SANDBOX" in advice})) :
         script;
     });

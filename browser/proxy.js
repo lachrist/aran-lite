@@ -9,7 +9,7 @@ module.exports = (apath, options) => {
   Fs.writeFileSync(path, [
     `const MakeVirus = require(${JSON.stringify(Path.join(__dirname, "..", "make-virus.js"))});`,
     `const Analysis = require(${JSON.stringify(Path.resolve(apath))});`,
-    `module.exports = MakeVirus(Analysis, "browser");`
+    `module.exports = MakeVirus(Analysis);`
   ].join("\n"));
   process.on("exit", () => {
     Fs.unlinkSync(path);
