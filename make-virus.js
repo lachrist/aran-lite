@@ -1,25 +1,24 @@
 const Astring = require("astring");
 const Aran = require("aran");
 const islower = (string) => string.toLowerCase() === string;
-module.exports = (analysis) => (antena, options, callback) => {
+module.exports = (Analysis) => (antena, argm, callback) => {
   const aran = Aran();
-  analysis(aran, antena, options, (error, {parse, advice, pointcut}) => {
+  let analysis;
+  const defscope = antena.platform === "node" ? ["this", "__dirname", "__filename", "require", "module", "exports"] : ["this"];
+  const transform = (script, source) => {
+    const estree = analysis.parse(script, source);
+    return estree ? Astring.generate(aran.weave(estree, analysis.pointcut, {
+      scope: typeof source === "number" ? source : (typeof source === "string" ? defscope : ["this"]),
+      sandbox: "SANDBOX" in analysis.advice
+    })) : script;
+  };
+  Analysis({aran, antena, argm, transform}, (error, result) => {
     if (error)
       return callback(error);
-    pointcut = pointcut || Object.keys(advice).filter(islower);
-    global[aran.namespace] = advice;
+    analysis = result;
+    analysis.pointcut = analysis.pointcut || Object.keys(analysis.advice).filter(islower);
+    global[aran.namespace] = analysis.advice;
     global.eval(Astring.generate(aran.setup()));
-    callback(null, (script, source) => {
-      const estree = parse(script, source);
-      return estree ?
-        Astring.generate(
-          aran.weave(
-            estree,
-            pointcut,
-            {
-              scope: antena.platform === "node" ? "node" : "global",
-              sandbox: "SANDBOX" in advice})) :
-        script;
-    });
+    callback(null, transform);
   });
 };
