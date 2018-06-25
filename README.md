@@ -82,6 +82,8 @@ analysis({aran, antena, argm, transform}, (error, ({parse, advice}) => { ... }))
 
 ## `require("aran-lite/node")(analysis, options)`
 
+Deploy an analysis function an a node process, example [here](/test/node).
+
 ```js
 require("aran-lite/node")(analysis, {host, secure, _:[main_path, ...argv], ...argm});
 ```
