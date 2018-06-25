@@ -82,7 +82,11 @@ analysis({aran, antena, argm, transform}, (error, ({parse, advice}) => { ... }))
 
 ## `require("aran-lite/node")(analysis, options)`
 
-Deploy an analysis function an a node process, example [here](/test/node).
+Deploy an analysis function/module an a node process, example [here](/test/node).
+
+```
+aran-lite-node --analysis <path> [--host <host>] [--secure] <argm> -- <node-command>`
+```
 
 ```js
 require("aran-lite/node")(analysis, {host, secure, _:[main_path, ...argv], ...argm});
@@ -101,11 +105,9 @@ require("aran-lite/node")(analysis, {host, secure, _:[main_path, ...argv], ...ar
 * `argm :: {string}`:
   Mapping to pass as `argm` to the analysis
 
-```
-aran-lite-node --analysis <path> [--host <host>] [--secure] ... -- <node-command>`
-```
-
 ## `proxy = require("aran-lite/browser/proxy")(analysis_path, options)`
+
+Deploy an analysis module on the browser, example [here](test/browser).
 
 ```js
 proxy = require("aran-lite/browser/proxy")(analysis_path, {"ca-home":ca_home, "url-search-key":url_search_key});
